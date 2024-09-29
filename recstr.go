@@ -13,13 +13,11 @@ type config struct {
 	lengthLimit    int
 }
 
-// Enough for most cases
-var (
-	c = config{
-		recursionLimit: 3,
-		lengthLimit:    25,
-	}
-)
+// Enough in most cases
+var c = config{
+	recursionLimit: 3,
+	lengthLimit:    25,
+}
 
 func Of(v any, options ...option) string {
 	oc := c
@@ -94,6 +92,8 @@ func parse(v reflect.Value, w *bytes.Buffer, depth int) {
 			}
 		}
 		w.WriteString("}")
+	case reflect.String:
+		w.WriteString(fmt.Sprintf("`%v`", v)) // JSON friendly
 	default:
 		// TODO: parse ptr in Map
 		w.WriteString(fmt.Sprintf("%#v", v))

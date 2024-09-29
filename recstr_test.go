@@ -38,7 +38,7 @@ var (
 	}
 	fstStruct = FstStruct{
 		IntPtr:    mygo.P(4),
-		StrPtr:    mygo.P("FstStrPtr"),
+		StrPtr:    mygo.P(`"FstStrPtr"`),
 		FloatStr:  mygo.P(3.14),
 		Int2Str:   map[int]string{1: "a", 2: "b", 3: "c"},
 		SecStruct: secStruct,
