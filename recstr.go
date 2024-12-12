@@ -94,8 +94,26 @@ func parse(v reflect.Value, w *bytes.Buffer, depth int) {
 		w.WriteString("}")
 	case reflect.String:
 		w.WriteString(fmt.Sprintf("`%v`", v)) // JSON friendly
+	case reflect.Map:
+		w.WriteString("map[" + v.Type().Key().String() + "]" + v.Type().Elem().String() + "{")
+		if depth > c.recursionLimit {
+			w.WriteString("...")
+		} else {
+			for i, k := range v.MapKeys() {
+				if i > 0 {
+					w.WriteString(", ")
+				}
+				if i == c.lengthLimit {
+					w.WriteString("...")
+					break
+				}
+				parse(k, w, depth)
+				w.WriteString(": ")
+				parse(v.MapIndex(k), w, depth)
+			}
+		}
+		w.WriteString("}")
 	default:
-		// TODO: parse ptr in Map
 		w.WriteString(fmt.Sprintf("%#v", v))
 	}
 }

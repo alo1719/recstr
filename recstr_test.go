@@ -16,6 +16,7 @@ type Struct struct {
 	FstStructPtr    *FstStruct
 	FstStructSlc    []FstStruct
 	SecStructPtrSlc []*SecStruct
+	Map             map[*string]*FstStruct
 }
 
 type FstStruct struct {
@@ -51,6 +52,10 @@ var (
 		FstStructPtr:    &fstStruct,
 		FstStructSlc:    []FstStruct{fstStruct, fstStruct},
 		SecStructPtrSlc: []*SecStruct{&secStruct, &secStruct},
+		Map: map[*string]*FstStruct{
+			mygo.P("1"): &fstStruct,
+			mygo.P("2"): &fstStruct,
+		},
 	}
 )
 
@@ -62,6 +67,11 @@ func TestPerformance(t *testing.T) {
 	tt := time.Now()
 	for i := 0; i < 1000; i++ {
 		Of(s)
+	}
+	fmt.Println(time.Since(tt))
+	tt = time.Now()
+	for i := 0; i < 1000; i++ {
+		fmt.Sprintf("%#v", s)
 	}
 	fmt.Println(time.Since(tt))
 }
