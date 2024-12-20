@@ -20,6 +20,9 @@ var c = config{
 }
 
 func Of(v any, options ...option) string {
+	if v == nil {
+		return `nil`
+	}
 	oc := c
 	for _, option := range options {
 		option(&c)

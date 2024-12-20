@@ -61,6 +61,7 @@ var (
 
 func Test(t *testing.T) {
 	fmt.Println(Of(s))
+	fmt.Println(Of(nil))
 }
 
 func TestPerformance(t *testing.T) {
